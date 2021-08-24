@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MovieBooking.Contracts.DTO;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MovieBooking.Contracts.Interfaces
 {
-    public class IMovieService
+    public interface IMovieService
     {
+        SearchResponse<Movie> SearchMovie(SearchMovieInput searchMovie);
+
+        Movie GetMovieDetails(string imdbId);
     }
 }
