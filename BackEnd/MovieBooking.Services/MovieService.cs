@@ -13,7 +13,6 @@ namespace MovieBooking.Services
     public class MovieService : IMovieService
     {
         private static List<Movie> movies = LoadMovies();
-        private readonly int defaultPageSize = 10;
 
         /// <summary>
         /// To get the movie detail based on imdbId
@@ -62,10 +61,25 @@ namespace MovieBooking.Services
             }
             #endregion
 
-            #region pagination logic
+            #region pagination logic and Sorting logic
             var skip = searchMovie.PageNumber * searchMovie.PageSize;
             var take = searchMovie.PageSize;
-            var filteredMovies = movieQuery.Skip(skip).Take(take).ToList();
+            var filteredMovies = new List<Movie>();
+            if (searchMovie.SortByTitle.HasValue)
+            {
+                if (searchMovie.SortByTitle.Value)
+                {
+                    filteredMovies = movieQuery.OrderBy(elem => elem.Title).Skip(skip).Take(take).ToList();
+                }
+                else
+                {
+                    filteredMovies = movieQuery.OrderByDescending(elem => elem.Title).Skip(skip).Take(take).ToList();
+                }
+            }
+            else
+            {
+                filteredMovies = movieQuery.Skip(skip).Take(take).ToList();
+            }
             #endregion
 
             var totalRecords = movies.Count();

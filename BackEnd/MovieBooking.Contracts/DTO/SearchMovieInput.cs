@@ -11,6 +11,6 @@ namespace MovieBooking.Contracts.DTO
         public string Language { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public bool SortByTitle { get; set; }
+        public bool? SortByTitle { get; set; }
     }
 }
