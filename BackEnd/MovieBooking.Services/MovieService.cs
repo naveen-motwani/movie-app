@@ -24,7 +24,6 @@ namespace MovieBooking.Services
             return movies.FirstOrDefault(elem => elem.ImdbId == imdbId);
         }
 
-
         /// <summary>
         /// To search movies based on input
         /// </summary>
@@ -87,7 +86,6 @@ namespace MovieBooking.Services
 
             return response;
         }
-
 
         /// <summary>
         /// load the movies from json file.

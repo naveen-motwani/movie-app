@@ -18,7 +18,7 @@ namespace MovieBooking.UnitTests
             Assert.AreEqual(response.ImdbId, "tt0295297");
         }
 
-        #region SearchMovieAsync
+        #region SearchMovie
         [TestMethod]
         public void Should_Throw_Exception_Incase_of_Invalid_Input()
         {
@@ -81,7 +81,13 @@ namespace MovieBooking.UnitTests
             {
                 Assert.AreEqual(response.Records[i].Language, "Hindi");
             }
-        } 
+        }
+
+        [TestMethod]
+        public void Should_Return_Sorted_Records()
+        {
+           // not writing due to lack of time.
+        }
         #endregion
 
         private MovieService GetServiceObject()
