@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators'
 import { MovieService } from '../shared/movie.service';
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   searchResponse$ = new Observable<SearchResponse>(null);
   searchInput: SearchMovieInput = new SearchMovieInput();
   componentDestroy$ = new Subject();
@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
     location: new FormControl(''),
     language: new FormControl(''),
   });
+
   constructor(private movieService: MovieService,
     private router: Router,
     private activatedRoute: ActivatedRoute) {
@@ -74,6 +75,10 @@ export class ListComponent implements OnInit {
   viewDetails(id: string): void {
     this.router.navigate([id], { relativeTo: this.activatedRoute });
   }
+  
+  ngOnDestroy(): void {
+    this.componentDestroy$.next();
+  }
 
   private setupSubscription() {
     this.searchForm.controls.title.valueChanges.pipe(
@@ -97,4 +102,5 @@ export class ListComponent implements OnInit {
       this.searchMovies();
     })
   }
+  
 }
