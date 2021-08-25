@@ -1,8 +1,29 @@
 <div class="container">
-  <form [formGroup]="contactForm">
+  <form [formGroup]="searchForm">
     <div class="form-group">
-      <label for="exampleInputEmail1">Title</label>
-      <input type="email" formControlName="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title">
+      <div class="col-md-3">
+        <label for="exampleInputEmail1">Title</label>
+        <input type="email" formControlName="title" class="form-control" aria-describedby="emailHelp"
+          placeholder="Title">
+      </div>
+      <div class="col-md-3">
+        <label for="exampleInputEmail1">Location</label>
+        <select class="form-control" formControlName="location" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <option value="">All</option>
+          <option value="Pune">Pune</option>
+          <option value="Bangalore">Bangalore</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="exampleInputEmail1">Language</label>
+        <select class="form-control"formControlName="language"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <option value="">All</option>
+          <option value="Hindi">Hindi</option>
+          <option value="English">English</option>
+        </select>
+      </div>
     </div>
     <div class="form-group">
       <div class="row">
@@ -17,6 +38,7 @@
                 <th scope="col">Location</th>
                 <th scope="col">imdbRating</th>
                 <th scope="col">Listing</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -28,10 +50,10 @@
                   <td>{{item.location}}</td>
                   <td>{{item.ibmdRatinge}}</td>
                   <td>{{item.listingType}}</td>
+                  <td><button class="btn btn-link" (click)="viewDetails(item.imdbId)">view</button></td>
                 </tr>
               </ng-container>
             </tbody>
-
           </table>
         </div>
         <div class="col-md-1"></div>
