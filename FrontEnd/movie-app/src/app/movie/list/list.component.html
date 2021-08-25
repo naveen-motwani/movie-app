@@ -8,8 +8,8 @@
       </div>
       <div class="col-md-3">
         <label for="exampleInputEmail1">Location</label>
-        <select class="form-control" formControlName="location" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
+        <select class="form-control" formControlName="location" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           <option value="">All</option>
           <option value="Pune">Pune</option>
           <option value="Bangalore">Bangalore</option>
@@ -17,8 +17,8 @@
       </div>
       <div class="col-md-3">
         <label for="exampleInputEmail1">Language</label>
-        <select class="form-control"formControlName="language"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
+        <select class="form-control" formControlName="language" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           <option value="">All</option>
           <option value="Hindi">Hindi</option>
           <option value="English">English</option>
@@ -27,22 +27,22 @@
     </div>
     <div class="form-group">
       <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-9">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Poster</th>
-                <th scope="col">Title</th>
-                <th scope="col">Language</th>
-                <th scope="col">Location</th>
-                <th scope="col">imdbRating</th>
-                <th scope="col">Listing</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngIf="searchResponse$ | async as searchResponse">
+        <ng-container *ngIf="searchResponse$ | async as searchResponse">
+          <div class="col-md-1"></div>
+          <div class="col-md-9">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Poster</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Language</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">imdbRating</th>
+                  <th scope="col">Listing</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
                 <tr *ngFor="let item of searchResponse.records">
                   <td><img src="{{item.poster}}" height="30px" width="30px" /></td>
                   <td>{{item.title}}</td>
@@ -52,12 +52,18 @@
                   <td>{{item.listingType}}</td>
                   <td><button class="btn btn-link" (click)="viewDetails(item.imdbId)">view</button></td>
                 </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" *ngFor="let item of searchResponse.pages"
+                  [ngClass]="{'disabled': isCurrentPage(item)}"><a class="page-link"
+                    (click)="goToPage(item)">{{item}}</a></li>
+              </ul>
+            </nav>
+          </div>
+        </ng-container>
         <div class="col-md-1"></div>
-
       </div>
     </div>
   </form>

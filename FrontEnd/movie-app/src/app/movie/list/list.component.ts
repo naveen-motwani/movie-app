@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators'
+import { map, takeUntil } from 'rxjs/operators'
 import { MovieService } from '../shared/movie.service';
 import { SearchResponse } from '../shared/search-response.model';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute) {
     this.searchInput.pageSize = 5;
+    this.searchInput.pageNumber = 0;
   }
 
   ngOnInit(): void {
@@ -31,13 +32,43 @@ export class ListComponent implements OnInit {
     this.setupSubscription();
   }
 
+  isCurrentPage(page: number): boolean {
+    return this.searchInput.pageNumber == page - 1;
+  }
+
+  goToPage(page: number): void {
+    if (!this.isCurrentPage(page)) {
+      this.searchInput.pageNumber = page - 1;
+      this.searchMovies();
+    }
+  }
+
   searchMovies(): void {
-    this.searchResponse$ = this.movieService.searchMovies(this.searchInput);
+    this.searchResponse$ = this.movieService.searchMovies(this.searchInput)
+      .pipe(map((searchResponse) => {
+        searchResponse.records.map((movie) => {
+          if (movie.listingType == "NOW_SHOWING") {
+            movie.listingType = "Now Showing";
+          }
+          else {
+            movie.listingType = "Upcoming";
+          }
+          return movie;
+        });
+        searchResponse.pages = [];
+        const pages = searchResponse.totalPages / this.searchInput.pageSize;
+        for (let i = 1; i <= pages; i++) {
+          searchResponse.pages.push(i);
+        }
+
+        return searchResponse;
+      }));;
   }
 
   viewDetails(id: string): void {
     this.router.navigate([id], { relativeTo: this.activatedRoute });
   }
+
   private setupSubscription() {
     this.searchForm.controls.title.valueChanges.pipe(
       takeUntil(this.componentDestroy$)
