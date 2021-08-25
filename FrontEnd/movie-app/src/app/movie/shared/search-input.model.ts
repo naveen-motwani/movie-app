@@ -5,5 +5,5 @@ export class SearchMovieInput
     title?: string;
     pageNumber: number;
     pageSize: number;
-
+    sortByTitle?: boolean;
 }

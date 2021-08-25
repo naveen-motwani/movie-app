@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
     private activatedRoute: ActivatedRoute) {
     this.searchInput.pageSize = 5;
     this.searchInput.pageNumber = 0;
+    this.searchInput.sortByTitle = null;
   }
 
   ngOnInit(): void {
@@ -41,6 +42,11 @@ export class ListComponent implements OnInit {
       this.searchInput.pageNumber = page - 1;
       this.searchMovies();
     }
+  }
+
+  sort(): void {
+    this.searchInput.sortByTitle = !this.searchInput.sortByTitle;
+    this.searchMovies();
   }
 
   searchMovies(): void {
