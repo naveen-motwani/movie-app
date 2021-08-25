@@ -14,7 +14,7 @@ namespace MovieBooking.Services
     {
         private static List<Movie> movies = LoadMovies();
         private readonly int defaultPageSize = 10;
-       
+
         /// <summary>
         /// To get the movie detail based on imdbId
         /// </summary>
@@ -42,14 +42,19 @@ namespace MovieBooking.Services
             IEnumerable<Movie> movieQuery = movies.AsEnumerable();
 
             #region search logic
+            if (!string.IsNullOrWhiteSpace(searchMovie.Title))
+            {
+                movieQuery = movies.Where(elem => elem.Title.ToLower().Contains(searchMovie.Title.ToLower()));
+            }
+
             if (!string.IsNullOrWhiteSpace(searchMovie.Language))
             {
-                movieQuery = movies.Where(elem => elem.Language == searchMovie.Language);
+                movieQuery = movies.Where(elem => elem.Language.ToLower() == searchMovie.Language.ToLower());
             }
 
             if (!string.IsNullOrWhiteSpace(searchMovie.Location))
             {
-                movieQuery = movies.Where(elem => elem.Location == searchMovie.Location);
+                movieQuery = movies.Where(elem => elem.Location.ToLower() == searchMovie.Location.ToLower());
             }
             if (searchMovie.PageSize == 0)
             {
