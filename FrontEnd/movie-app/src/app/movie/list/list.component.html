@@ -1,8 +1,8 @@
 <div class="container">
-  <form>
+  <form [formGroup]="contactForm">
     <div class="form-group">
       <label for="exampleInputEmail1">Title</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title">
+      <input type="email" formControlName="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title">
     </div>
     <div class="form-group">
       <div class="row">
@@ -11,32 +11,27 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th>Poster</th>
+                <th scope="col">Title</th>
+                <th scope="col">Language</th>
+                <th scope="col">Location</th>
+                <th scope="col">imdbRating</th>
+                <th scope="col">Listing</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              <ng-container *ngIf="searchResponse$ | async as searchResponse">
+                <tr *ngFor="let item of searchResponse.records">
+                  <td><img src="{{item.poster}}" height="30px" width="30px" /></td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.language}}</td>
+                  <td>{{item.location}}</td>
+                  <td>{{item.ibmdRatinge}}</td>
+                  <td>{{item.listingType}}</td>
+                </tr>
+              </ng-container>
             </tbody>
+
           </table>
         </div>
         <div class="col-md-1"></div>

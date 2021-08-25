@@ -11,7 +11,6 @@ using System.Text.Json.Serialization;
 
 namespace MovieBookingApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
@@ -22,15 +21,14 @@ namespace MovieBookingApi.Controllers
         }
 
         [HttpGet("movies/{imdbID}")]
-        public IActionResult GetMovies(string imdbID)
+        public IActionResult GetMovies(string? imdbID)
         {
             var movie = _movieService.GetMovieDetails(imdbID);
             return Ok(movie);
         }
 
-        [HttpPost]
-        [Route("movie/search")]
-        public IActionResult SearchMovies([FromBody] SearchMovieInput searchMovie)
+        [HttpPost("movies/search")]
+        public IActionResult SearchMovies(SearchMovieInput searchMovie)
         {
             var movies = _movieService.SearchMovie(searchMovie);
             return Ok(movies);

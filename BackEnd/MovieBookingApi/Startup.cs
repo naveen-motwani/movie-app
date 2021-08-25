@@ -16,6 +16,7 @@ namespace MovieBookingApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +27,15 @@ namespace MovieBookingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                                  });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen();
 
@@ -43,7 +53,7 @@ namespace MovieBookingApi
 
 
             app.UseSwagger();
-
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Movie API");
